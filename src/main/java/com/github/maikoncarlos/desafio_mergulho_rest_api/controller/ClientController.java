@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -25,29 +25,29 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> searchClient(@PathVariable("id") Long clientId) {
-        return ResponseEntity.ok().body(getCliente(clientId));
+        return ResponseEntity.ok().body(validClientExist(clientId));
     }
 
     @PostMapping()
-    public ResponseEntity<Cliente> createdClient(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> createdClient(@RequestBody @Valid Cliente cliente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clientRepository.save(cliente));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> updateClient(@PathVariable("id") Long clientId , @RequestBody Cliente cliente){
-        getCliente(clientId);
+    public ResponseEntity<Cliente> updateClient(@PathVariable("id") Long clientId , @RequestBody @Valid Cliente cliente){
+        validClientExist(clientId);
         cliente.setId(clientId);
         return ResponseEntity.ok().body(clientRepository.save(cliente));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClient(@PathVariable("id") Long clientId) {
-        getCliente(clientId);
+        validClientExist(clientId);
         clientRepository.deleteById(clientId);
         return ResponseEntity.noContent().build();
     }
 
-    private Cliente getCliente(Long clientId) {
+    private Cliente validClientExist(Long clientId) {
        return clientRepository.findById(clientId)
                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

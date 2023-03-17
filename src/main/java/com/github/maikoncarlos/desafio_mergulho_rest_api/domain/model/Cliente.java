@@ -4,6 +4,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Getter
@@ -18,9 +21,16 @@ public class Cliente {
     @Column (name = "id", nullable = false)
     private Long id;
     @Column(name = "name")
+    @NotBlank
+    @Size(max=60)
     private String name;
+    @NotBlank
+    @Email
+    @Size(max=255)
     @Column(name = "email")
     private String email;
+    @NotBlank
+    @Size(max=20)
     @Column(name = "phone")
     private String phone;
 
