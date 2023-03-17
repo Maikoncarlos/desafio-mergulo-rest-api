@@ -22,11 +22,11 @@ public class Cliente {
     private Long id;
     @Column(name = "name")
     @NotBlank
-    @Size(max=60)
+    @Size(max=50)
     private String name;
     @NotBlank
     @Email
-    @Size(max=255)
+    @Size(max=25)
     @Column(name = "email")
     private String email;
     @NotBlank
