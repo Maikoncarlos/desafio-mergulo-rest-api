@@ -33,7 +33,7 @@ public class ClientController {
 
     @PostMapping()
     public ResponseEntity<Cliente> createdClient(@RequestBody @Valid Cliente cliente) throws BusinessEmailException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(catalogClientService.persistInClien(cliente));
+        return ResponseEntity.status(HttpStatus.CREATED).body(catalogClientService.persistInClient(cliente));
     }
 
     @PutMapping("/{id}")
