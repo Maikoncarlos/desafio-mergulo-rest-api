@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class ExceptionHandlerAPI extends ResponseEntityExceptionHandler {
 
         ErrorStandard error = new ErrorStandard();
         error.setStatus(status.value());
-        error.setDateTime(LocalDateTime.now());
+        error.setDateTime(OffsetDateTime.now());
         error.setTitle("Um ou mais campos estão inválidos!");
         error.setFields(fields);
 
@@ -52,7 +52,7 @@ public class ExceptionHandlerAPI extends ResponseEntityExceptionHandler {
 
         ErrorStandard error = new ErrorStandard();
         error.setStatus(status.value());
-        error.setDateTime(LocalDateTime.now());
+        error.setDateTime(OffsetDateTime.now());
         error.setTitle(exception.getMessage());
 
         return handleExceptionInternal(exception, error, headers, status, request);
