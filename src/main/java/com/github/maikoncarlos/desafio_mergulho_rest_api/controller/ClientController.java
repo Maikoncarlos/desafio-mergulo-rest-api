@@ -1,6 +1,8 @@
 package com.github.maikoncarlos.desafio_mergulho_rest_api.controller;
 
 import com.github.maikoncarlos.desafio_mergulho_rest_api.domain.model.Cliente;
+import com.github.maikoncarlos.desafio_mergulho_rest_api.domain.service.CatalogClientService;
+import com.github.maikoncarlos.desafio_mergulho_rest_api.domain.exception.BusinessEmailException;
 import com.github.maikoncarlos.desafio_mergulho_rest_api.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.List;
 public class ClientController {
 
     private final ClientRepository clientRepository;
+    private final CatalogClientService catalogClientService;
 
     @GetMapping
     public ResponseEntity<List<Cliente>> getClientList() {
@@ -29,12 +32,14 @@ public class ClientController {
     }
 
     @PostMapping()
-    public ResponseEntity<Cliente> createdClient(@RequestBody @Valid Cliente cliente) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(clientRepository.save(cliente));
+    public ResponseEntity<Cliente> createdClient(@RequestBody @Valid Cliente cliente) throws BusinessEmailException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(catalogClientService.persistInClien(cliente));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> updateClient(@PathVariable("id") Long clientId , @RequestBody @Valid Cliente cliente){
+    public ResponseEntity<Cliente> updateClient(@PathVariable("id") Long clientId ,
+                                                @RequestBody @Valid Cliente cliente){
+
         validClientExist(clientId);
         cliente.setId(clientId);
         return ResponseEntity.ok().body(clientRepository.save(cliente));
@@ -43,7 +48,7 @@ public class ClientController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClient(@PathVariable("id") Long clientId) {
         validClientExist(clientId);
-        clientRepository.deleteById(clientId);
+        catalogClientService.deletedClient(clientId);
         return ResponseEntity.noContent().build();
     }
 
