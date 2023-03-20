@@ -1,11 +1,13 @@
 package com.github.maikoncarlos.desafio_mergulho_rest_api.domain.model;
 
+import com.github.maikoncarlos.desafio_mergulho_rest_api.ValidationGroups;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -15,6 +17,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 public class Cliente {
+
+    @NotNull(groups =  ValidationGroups.ClienteId.class)
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue (strategy = GenerationType.IDENTITY)
